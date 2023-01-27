@@ -1,0 +1,103 @@
+﻿@model PagingResultViewModel
+
+@{
+    var categories = (List<CategoryViewModel>)Model.Data;
+    var NextValue = Model.CurrentPage + 1;
+    var PreviousValue = (Model.CurrentPage - 1);   
+}
+
+<h3> Category Managment</h3>
+<hr />
+
+@if (categories.Any())
+{
+    <form asp-controller="Category" asp-action="Index" method="get">
+    <div class="row">
+        <div class="col-md-4">
+            <input name="SearchKey" value="@ViewBag.searchKey" class="form-control" placeholder="Search .." />
+        </div>
+
+        <div class="col-md-2">
+            <input type="submit" class="btn btn-primary" value="Search" />
+        </div>
+    </div>
+    </form>
+    <br/>
+<table class="table table-hover">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>PostCount</th>
+        <th>Last Aded</th>
+        <th>Actions</th>
+    </tr>
+    @foreach(var category in categories)
+    {
+        <tr>
+            <th>@category.Id</th>
+            <th>@category.Name</th>
+            <th>@category.PostCount</th>
+            <th>@if(category.LastPostAded != null)
+                {
+                    @category.LastPostAded.Value.ToString("yyyy:MM:dd HH:mm");
+
+                }
+                else
+                {
+                    <th>
+                        No Items Added
+                    </th>
+                }
+                
+            </th>
+
+            <th> <a href="~/Category/Delete/@category.Id" class=" btn btn-danger">Delete</a> </th>
+
+                
+                
+          
+        </tr>
+    }
+
+</table>
+} else{
+    <div class="alert alert-warning">
+        No Data in our database
+    </div>
+}
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+      @if (Model.CurrentPage == 1)
+        {
+            <li class="page-item disabled"><a class="page-link" href="~/Category/Index?page=@PreviousValue">Previous</a></li>
+        } else
+        {
+            <li class="page-item"><a class="page-link" href="~/Category/Index?page=@PreviousValue">Previous</a></li>
+        }
+        
+    @for (int i = 1 ; i <=Model.NumberOfPages; i++)
+        {
+            @if (i == Model.CurrentPage)
+            {
+                <li class="page-item active"><a class="page-link" href="~/Category/Index?page=@i">@i</a></li>
+            }
+            else
+            {
+            <li class="page-item"><a class="page-link" href="~/Category/Index?page=@i">@i</a></li>
+            }
+        }
+        @if (Model.NumberOfPages == Model.CurrentPage)
+        {
+            <li class="page-item disabled"><a class="page-link" href="~/Category/Index?page=@NextValue">Next</a></li>
+        }
+        else
+        {
+            <li class="page-item"><a class="page-link" href="~/Category/Index?page=@NextValue">Next</a></li>
+        }
+
+    
+  </ul>
+</nav>
+    
+

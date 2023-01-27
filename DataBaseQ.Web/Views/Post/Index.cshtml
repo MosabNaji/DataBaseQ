@@ -1,0 +1,27 @@
+﻿@model List<Post>
+
+    <h3> Post Managment</h3>
+<hr />
+
+<table class="table table-hover">
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Body</th>
+        <th>Image</th>
+        <th>Category</th>
+        <th>Time</th>
+    </tr>
+    @foreach(var Post in Model)
+    {
+        <tr>
+            <th>@Post.Id</th>
+            <th>@Post.Title</th>
+            <th>@Post.Body</th>
+            <th> <img src="@Post.ImageUrl" width="200" class="img-fluid" /> </th>
+            <th>@Post.Category.Name</th>
+            <th>@Post.TimeToRead</th>
+        </tr>
+    }
+
+</table>
